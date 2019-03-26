@@ -1,0 +1,29 @@
+{
+    "name": "hiraeth/routing",
+    "description": "Router abstraction for the Hiraeth Nano Framework",
+    "license": "MIT",
+    "authors": [
+        {
+            "name":  "Matthew J. Sahagian",
+            "email": "matthew.sahagian@gmail.com",
+            "role":  "Lead Architect / Developer"
+        }
+    ],
+    "require": {
+        "hiraeth/app": "^2.0",
+        "psr/http-message": "^1.1",
+        "psr/http-server-handler": "^1.0",
+        "psr/http-server-middleware": "^1.0"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    },
+    "type": "opus-package",
+    "extra": {
+        "opus": {
+            "hiraeth/app": {
+                "config": "config/packages"
+            }
+        }
+    }
+}
