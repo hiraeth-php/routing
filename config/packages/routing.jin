@@ -33,6 +33,19 @@
 
 	]
 
+
+	;
+	; A template for our routes map
+	;
+
+	route = def(route, target, methods) {
+		{
+			"route":   $route,
+			"target":  $target,
+			"methods": $methods
+		}
+	}
+
 [routing]
 	;
 	; Adapters are responsible for taking the route target, the return value of the router's
