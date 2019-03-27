@@ -1,6 +1,12 @@
 [middleware]
 
 	;
+	; Whether or not the middleware is disabled
+	;
+
+	disabled = false
+
+	;
 	; The priority for the middleware
 	;
 
@@ -11,4 +17,3 @@
 	;
 
 	class = Hiraeth\Routing\RouterMiddleware
-
