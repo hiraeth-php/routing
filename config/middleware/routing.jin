@@ -1,0 +1,14 @@
+[middleware]
+
+	;
+	; The priority for the middleware
+	;
+
+	priority = 100
+
+	;
+	; The middleware class
+	;
+
+	class = Hiraeth\Routing\RouterMiddleware
+
