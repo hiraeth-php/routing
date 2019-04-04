@@ -10,12 +10,6 @@ use Hiraeth;
 class ResolverDelegate implements Hiraeth\Delegate
 {
 	/**
-	 *
-	 */
-	protected $app = NULL;
-
-
-	/**
 	 * Get the class for which the delegate operates.
 	 *
 	 * @static
@@ -29,35 +23,24 @@ class ResolverDelegate implements Hiraeth\Delegate
 
 
 	/**
-	 *
-	 */
-	public function __construct(Hiraeth\Application $app)
-	{
-		$this->app = $app;
-	}
-
-
-	/**
 	 * Get the instance of the class for which the delegate operates.
 	 *
 	 * @access public
-	 * @param Broker $broker The dependency injector instance
+	 * @param Hiraeth\Application $app The application instance for which the delegate operates
 	 * @return object The instance of the class for which the delegate operates
 	 */
-	public function __invoke(Hiraeth\Broker $broker): object
+	public function __invoke(Hiraeth\Application $app): object
 	{
-		$resolver = new Resolver($broker);
+		$resolver = new Resolver($app->get(Hiraeth\Broker::class));
 
 		$resolver->setAdapters(array_merge(...array_values(
-			$this->app->getConfig('*', 'routing.adapters', [])
+			$app->getConfig('*', 'routing.adapters', [])
 		)));
 
 		$resolver->setResponders(array_merge(...array_values(
-			$this->app->getConfig('*', 'routing.responders', [])
+			$app->getConfig('*', 'routing.responders', [])
 		)));
 
-		$broker->share($resolver);
-
-		return $resolver;
+		return $app->share($resolver);
 	}
 }
