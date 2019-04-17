@@ -81,6 +81,6 @@
 		;
 
 		"Hiraeth\Routing\StringResponder",
-		"Hiraeth\Routing\FileResponder",
-		"Hiraeth\Routing\JsonResponder"
+		"Hiraeth\Routing\JsonResponder",
+		"Hiraeth\Routing\FileResponder"
 	]
