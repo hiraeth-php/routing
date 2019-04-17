@@ -116,7 +116,9 @@ class Resolver implements ResolverInterface
 
 		throw new RuntimeException(sprintf(
 			'No registered responder matched the result, %s, returned from the current route.',
-			var_export($this->result, TRUE)
+			!is_object($this->result)
+				? var_export($this->result)
+				: get_class($this->result)
 		));
 	}
 

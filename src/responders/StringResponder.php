@@ -30,9 +30,19 @@ class StringResponder implements ResponderInterface
 	 */
 	public function __invoke(Resolver $resolver): Response
 	{
-		return $resolver->getResponse()->withBody(
-			$this->streamFactory->createStream($resolver->getResult())
-		);
+		$finfo     = finfo_open();
+		$result    = $resolver->getResult();
+		$response  = $resolver->getResponse();
+		$stream    = $this->streamFactory->createStream($result);
+		$mime_type = finfo_buffer($finfo, $result, FILEINFO_MIME_TYPE);
+
+		finfo_close($finfo);
+
+		return $response
+			->withStatus(200)
+			->withBody($stream)
+			->withHeader('Content-Type', $mime_type)
+		;
 	}
 
 

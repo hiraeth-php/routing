@@ -32,11 +32,14 @@ class JsonResponder implements ResponderInterface
 	 */
 	public function __invoke(Resolver $resolver): Response
 	{
-		return $resolver->getResponse()
+		$result   = $resolver->getResult();
+		$response = $resolver->getResponse();
+		$stream   = $this->streamFactory->createStream(json_encode($result));
+
+		return $response
+			->withStatus(200)
+			->withBody($stream)
 			->withHeader('Content-Type', 'application/json')
-			->withBody(
-				$this->streamFactory->createStream(json_encode($resolver->getResult()))
-			)
 		;
 	}
 
@@ -48,11 +51,20 @@ class JsonResponder implements ResponderInterface
 	{
 		$result = $resolver->getResult();
 
-		return is_array($result) || (
-			is_object($result) && (
-				$result instanceof JsonSerializable
-				|| $result instanceof StdClass
-			)
-		);
+		if (is_array($result)) {
+			return TRUE;
+		}
+
+		if (is_object($result)) {
+			if ($result instanceof JsonSerializable) {
+				return TRUE;
+			}
+
+			if ($result instanceof StdClass) {
+				return TRUE;
+			}
+		}
+
+		return FALSE;
 	}
 }
