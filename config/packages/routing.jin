@@ -62,25 +62,3 @@
 
 		"Hiraeth\Routing\NativeAdapter"
 	]
-
-	;
-	; Responders are responsible for taking the return value of the route callback and converting
-	; it into a proper PSR-7 `ResponseInterface` object.
-	;
-
-	responders = [
-		;
-		; The native responder will match an object returned which already implements the
-		; PSR-7 `ResponseInterface` and will perform no additional action for conversion.
-		;
-
-		"Hiraeth\Routing\NativeResponder",
-
-		;
-		; Other default responders
-		;
-
-		"Hiraeth\Routing\StringResponder",
-		"Hiraeth\Routing\JsonResponder",
-		"Hiraeth\Routing\FileResponder"
-	]

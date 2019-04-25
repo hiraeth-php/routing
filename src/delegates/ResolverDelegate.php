@@ -31,15 +31,31 @@ class ResolverDelegate implements Hiraeth\Delegate
 	 */
 	public function __invoke(Hiraeth\Application $app): object
 	{
-		$resolver = new Resolver($app->get(Hiraeth\Broker::class));
+		$resolver   = new Resolver($app->get(Hiraeth\Broker::class));
+		$adapters   = $app->getConfig('*', 'routing.adapters', []);
+		$responders = $app->getConfig('*', 'responder', []);
 
-		$resolver->setAdapters(array_merge(...array_values(
-			$app->getConfig('*', 'routing.adapters', [])
-		)));
+		usort($responders, function($a, $b) {
+			$a_priority = $a['priority'] ?? 50;
+			$b_priority = $b['priority'] ?? 50;
 
-		$resolver->setResponders(array_merge(...array_values(
-			$app->getConfig('*', 'routing.responders', [])
-		)));
+			return $a_priority - $b_priority;
+		});
+
+		$resolver->setAdapters(array_merge(...array_values($adapters)));
+
+		$resolver->setResponders(array_filter(array_map(function($config) {
+			if ($config['disabled'] ?? FALSE) {
+				return NULL;
+			}
+
+			if (empty($config['class'])) {
+				return NULL;
+			}
+
+			return $config['class'];
+		}, $responders)));
+
 
 		return $app->share($resolver);
 	}
