@@ -31,7 +31,7 @@ class ResolverDelegate implements Hiraeth\Delegate
 	 */
 	public function __invoke(Hiraeth\Application $app): object
 	{
-		$resolver   = new Resolver($app->get(Hiraeth\Broker::class));
+		$resolver   = new Resolver($app);
 		$adapters   = $app->getConfig('*', 'routing.adapters', []);
 		$responders = $app->getConfig('*', 'responder', []);
 
