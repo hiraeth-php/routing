@@ -2,7 +2,7 @@
 
 namespace Hiraeth\Routing;
 
-use Hiraeth\Broker;
+use Hiraeth\Application;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use RuntimeException;
@@ -21,9 +21,9 @@ class Resolver implements ResolverInterface
 	/**
 	 *
 	 */
-	public function __construct(Broker $broker)
+	public function __construct(Application $app)
 	{
-		$this->broker = $broker;
+		$this->app = $app;
 	}
 
 
@@ -80,7 +80,7 @@ class Resolver implements ResolverInterface
 		$this->target     = $target;
 
 		foreach ($this->adapters as $adapter) {
-			$adapter = $this->broker->make($adapter);
+			$adapter = $this->app->get($adapter);
 
 			if (!$adapter instanceof AdapterInterface) {
 				throw new \RuntimeException(sprintf(
@@ -93,11 +93,11 @@ class Resolver implements ResolverInterface
 				continue;
 			}
 
-			$this->result = $this->broker->execute($adapter($this), $this->parameters);
+			$this->result = $this->app->run($adapter($this), $this->parameters);
 		}
 
 		foreach ($this->responders as $responder) {
-			$responder = $this->broker->make($responder);
+			$responder = $this->app->get($responder);
 
 			if (!$responder instanceof ResponderInterface) {
 				throw new \RuntimeException(sprintf(
