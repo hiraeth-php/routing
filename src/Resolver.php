@@ -15,6 +15,48 @@ class Resolver implements ResolverInterface
 	/**
 	 *
 	 */
+	protected $adapters = array();
+
+
+	/**
+	 *
+	 */
+	protected $app = NULL;
+
+
+	/**
+	 *
+	 */
+	protected $parameters = array();
+
+
+	/**
+	 *
+	 */
+	protected $request = NULL;
+
+
+	/**
+	 *
+	 */
+	protected $responders = array();
+
+
+	/**
+	 *
+	 */
+	protected $response = NULL;
+
+
+	/**
+	 *
+	 */
+	protected $target = NULL;
+
+
+	/**
+	 *
+	 */
 	protected $result = NULL;
 
 

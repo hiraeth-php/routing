@@ -21,6 +21,30 @@ class RouterMiddleware implements MiddlewareInterface
 	/**
 	 *
 	 */
+	protected $app = NULL;
+
+
+	/**
+	 *
+	 */
+	protected $resolver = NULL;
+
+
+	/**
+	 *
+	 */
+	protected $responseFactory = NULL;
+
+
+	/**
+	 *
+	 */
+	protected $router = NULL;
+
+
+	/**
+	 *
+	 */
 	public function __construct(Application $app, RouterInterface $router, ResolverInterface $resolver, ResponseFactory $response_factory)
 	{
 		$this->app             = $app;

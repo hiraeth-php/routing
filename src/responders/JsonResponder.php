@@ -2,7 +2,7 @@
 
 namespace Hiraeth\Routing;
 
-use StdClass;
+use stdClass;
 use JsonSerializable;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
@@ -60,7 +60,7 @@ class JsonResponder implements ResponderInterface
 				return TRUE;
 			}
 
-			if ($result instanceof StdClass) {
+			if ($result instanceof stdClass) {
 				return TRUE;
 			}
 		}
