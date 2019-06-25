@@ -168,7 +168,7 @@ class Resolver implements ResolverInterface
 	/**
 	 *
 	 */
-	public function setAdapters(array $adapters): object
+	public function setAdapters(array $adapters): ResolverInterface
 	{
 		$this->adapters = $adapters;
 
@@ -179,7 +179,7 @@ class Resolver implements ResolverInterface
 	/**
 	 *
 	 */
-	public function setParameters(array $parameters): object
+	public function setParameters(array $parameters): ResolverInterface
 	{
 		foreach ($parameters as $parameter => $value) {
 			$this->parameters[':' . $parameter] = $value;
@@ -192,7 +192,7 @@ class Resolver implements ResolverInterface
 	/**
 	 *
 	 */
-	public function setResponders(array $responders): object
+	public function setResponders(array $responders): ResolverInterface
 	{
 		$this->responders = $responders;
 
