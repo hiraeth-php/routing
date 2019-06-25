@@ -18,12 +18,12 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 	 * Resolve a target returned by `RouterInterface::match()` to a PSR-7 response
 	 *
 	 * @access public
+	 * @param Route $route The route to run
 	 * @param Request $request The server request that matched the target
 	 * @param Response $response The response object to modify for return
-	 * @param mixed $target The target to construct and/or run
 	 * @return Response The PSR-7 response from running the target
 	 */
-	 public function run(Request $request, Response $response, $target): Response;
+	 public function run(Route $route, Request $request, Response $response): Response;
 
 
 	/**

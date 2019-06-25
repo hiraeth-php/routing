@@ -27,12 +27,6 @@ class Resolver implements ResolverInterface
 	/**
 	 *
 	 */
-	protected $parameters = array();
-
-
-	/**
-	 *
-	 */
 	protected $request = NULL;
 
 
@@ -109,17 +103,21 @@ class Resolver implements ResolverInterface
 	 * Resolve a target returned by `RouterInterface::match()` to a PSR-7 response
 	 *
 	 * @access public
+	 * @param Route $route The route to run
 	 * @param Request $request The server request that matched the target
 	 * @param Response $response The response object to modify for return
-	 * @param mixed $target The target to construct and/or run
 	 * @return Response The PSR-7 response from running the target
 	 */
-	public function run(Request $request, Response $response, $target): Response
+	public function run(Route $route, Request $request, Response $response): Response
 	{
-		$this->parameters = [];
-		$this->response   = $response;
+		$this->target     = $route->getTarget();
 		$this->request    = $request;
-		$this->target     = $target;
+		$this->response   = $response;
+		$parameters       = array();
+
+		foreach ($route->getParameters() as $parameter => $value) {
+			$parameters[':' . $parameter] = $value;
+		}
 
 		foreach ($this->adapters as $adapter) {
 			$adapter = $this->app->get($adapter);
@@ -135,7 +133,7 @@ class Resolver implements ResolverInterface
 				continue;
 			}
 
-			$this->result = $this->app->run($adapter($this), $this->parameters);
+			$this->result = $this->app->run($adapter($this), $parameters);
 		}
 
 		foreach ($this->responders as $responder) {
@@ -171,19 +169,6 @@ class Resolver implements ResolverInterface
 	public function setAdapters(array $adapters): ResolverInterface
 	{
 		$this->adapters = $adapters;
-
-		return $this;
-	}
-
-
-	/**
-	 *
-	 */
-	public function setParameters(array $parameters): ResolverInterface
-	{
-		foreach ($parameters as $parameter => $value) {
-			$this->parameters[':' . $parameter] = $value;
-		}
 
 		return $this;
 	}

@@ -15,15 +15,15 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  interface RouterInterface
  {
 	 /**
-	  * Match an incoming request and return a route target.
+	  * Match an incoming request and return a result.
 	  *
-	  * If the route cannot be matched, this method should modify and return the appropriate
-	  * response e.g. 404, 403, etc.
+	  * If the route cannot be matched, this result target should contain the modified response
+	  * with an appropriate status and information e.g. 404, 403, etc.
 	  *
 	  * @access public
 	  * @param Request $request The server request to try and match against a route
 	  * @param Response $response The default response to be modified in the event of errors
-	  * @return mixed A matching target for the route
+	  * @return Route The route to run
 	  */
-	 public function match(Request $request, Response $response);
+	 public function match(Request $request, Response $response): Route;
  }

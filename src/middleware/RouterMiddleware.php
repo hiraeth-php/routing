@@ -60,12 +60,8 @@ class RouterMiddleware implements MiddlewareInterface
 	public function process(Request $request, RequestHandler $handler): Response
 	{
 		$response = $this->responseFactory->createResponse(200);
-		$target   = $this->router->match($request, $response);
+		$route    = $this->router->match($request, $response);
 
-		if ($target instanceof Response) {
-			return $target;
-		}
-
-		return $this->resolver->run($request, $response, $target);
+		return $this->resolver->run($route, $request, $response);
 	}
 }
