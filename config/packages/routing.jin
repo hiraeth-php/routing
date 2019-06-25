@@ -56,7 +56,7 @@
 
 	adapters = [
 		"Hiraeth\Routing\ResponseAdapter",
-		"Hiraeth\Routing\SignalAdapter",
+		"Hiraeth\Routing\SignalAdapter"
 
 		;
 		; The native adapter does no conversion on route targets and therefore assumes
