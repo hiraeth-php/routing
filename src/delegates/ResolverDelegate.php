@@ -32,31 +32,45 @@ class ResolverDelegate implements Hiraeth\Delegate
 	public function __invoke(Hiraeth\Application $app): object
 	{
 		$resolver   = new Resolver($app);
-		$adapters   = $app->getConfig('*', 'routing.adapters', []);
+		$adapters   = $app->getConfig('*', 'adapter', []);
 		$responders = $app->getConfig('*', 'responder', []);
 
-		usort($responders, function($a, $b) {
-			$a_priority = $a['priority'] ?? 50;
-			$b_priority = $b['priority'] ?? 50;
+		usort($adapters, [$this, 'sort']);
+		usort($responders, [$this, 'sort']);
 
-			return $a_priority - $b_priority;
-		});
-
-		$resolver->setAdapters(array_merge(...array_values($adapters)));
-
-		$resolver->setResponders(array_filter(array_map(function($config) {
-			if ($config['disabled'] ?? FALSE) {
-				return NULL;
-			}
-
-			if (empty($config['class'])) {
-				return NULL;
-			}
-
-			return $config['class'];
-		}, $responders)));
+		$resolver->setAdapters(array_filter(array_map([$this, 'load'], $adapters)));
+		$resolver->setResponders(array_filter(array_map([$this, 'load'], $responders)));
 
 
 		return $app->share($resolver);
+	}
+
+
+	/**
+	 *
+	 */
+	protected function sort($a, $b)
+	{
+		$a_priority = $a['priority'] ?? 50;
+		$b_priority = $b['priority'] ?? 50;
+
+		return $a_priority - $b_priority;
+	}
+
+
+	/**
+	 *
+	 */
+	protected function load($config)
+	{
+		if ($config['disabled'] ?? FALSE) {
+			return NULL;
+		}
+
+		if (empty($config['class'])) {
+			return NULL;
+		}
+
+		return $config['class'];
 	}
 }

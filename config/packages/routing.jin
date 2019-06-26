@@ -45,24 +45,3 @@
 			"methods": $methods
 		}
 	}
-
-[routing]
-
-	;
-	; Adapters are responsible for taking the route target, the return value of the router's
-	; `match()` method and converting it into a valid PHP callback to be executed by the broker.
-	; This callback is simply referred to as the route callback.
-	;
-
-	adapters = [
-		"Hiraeth\Routing\ResponseAdapter",
-		"Hiraeth\Routing\SignalAdapter"
-
-		;
-		; The native adapter does no conversion on route targets and therefore assumes
-		; the target to be a valid PHP callable.  While this can be useful in some very limited
-		; contexts, it is generally not tha tuseful, and therefore is disabled by default.
-		;
-
-		; "Hiraeth\Routing\NativeAdapter"
-	]

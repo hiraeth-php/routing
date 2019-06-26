@@ -6,6 +6,14 @@
 
 	prefix = /
 
+	;
+	; Patterns provide a way to regsiter custom route parameter matching via a simple RegEx or
+	; a pattern class which can transform patterns to native language types.
+	;
+
+	patterns = {
+		; "custom": "CustomPattern"
+	}
 
 	;
 	; Route definitions in this group.  Add tab separate lines for each route in the format:

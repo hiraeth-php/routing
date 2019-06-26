@@ -1,0 +1,19 @@
+[adapter]
+
+	;
+	; Whether or not this adapter is disabled
+	;
+
+	disabled = false
+
+	;
+	; The priority for the adapter
+	;
+
+	priority = 10
+
+	;
+	; The adapter class
+	;
+
+	class = Hiraeth\Routing\ResponseAdapter
