@@ -45,3 +45,12 @@
 			"methods": $methods
 		}
 	}
+
+[twig]
+
+	functions = {
+		"route": {
+			"target": "Hiraeth\Routing\UrlGenerator",
+			"required": false
+		}
+	}
