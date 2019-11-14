@@ -2,11 +2,10 @@
 
 namespace Hiraeth\Routing;
 
-
 /**
  *
  */
-interface AdapterInterface
+interface Adapter
 {
 	/**
 	 *

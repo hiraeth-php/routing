@@ -10,7 +10,7 @@ use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 /**
  *
  */
-class FileResponder implements ResponderInterface
+class FileResponder implements Responder
 {
 	/**
 	 *

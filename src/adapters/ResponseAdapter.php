@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 /**
  *
  */
-class ResponseAdapter implements AdapterInterface
+class ResponseAdapter implements Adapter
 {
 	/**
 	 *

@@ -3,8 +3,8 @@
 namespace Hiraeth\Routing;
 
 use Hiraeth\Application;
-use Hiraeth\Routing\RouterInterface;
-use Hiraeth\Routing\ResolverInterface;
+use Hiraeth\Routing\Router;
+use Hiraeth\Routing\Resolver;
 
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
@@ -45,7 +45,7 @@ class RouterMiddleware implements MiddlewareInterface
 	/**
 	 *
 	 */
-	public function __construct(Application $app, RouterInterface $router, ResolverInterface $resolver, ResponseFactory $response_factory)
+	public function __construct(Application $app, Router $router, Resolver $resolver, ResponseFactory $response_factory)
 	{
 		$this->app             = $app;
 		$this->router          = $router;

@@ -5,7 +5,7 @@ namespace Hiraeth\Routing;
 /**
  *
  */
-class NativeAdapter implements AdapterInterface
+class NativeAdapter implements Adapter
 {
 	/**
 	 *

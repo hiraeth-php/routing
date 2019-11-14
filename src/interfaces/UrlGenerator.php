@@ -5,7 +5,7 @@ namespace Hiraeth\Routing;
 /**
  *
  */
-interface UrlGeneratorInterface
+interface UrlGenerator
 {
 	/**
 	 *

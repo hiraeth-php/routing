@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * Generally this interface will be implemented by a proxy class which will wrap calls to a
  * specific router and normalize the behavior.
  */
- interface RouterInterface
+ interface Router
  {
 	 /**
 	  * Match an incoming request and return a result.

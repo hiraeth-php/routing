@@ -7,8 +7,14 @@ use Hiraeth\Utils\Signal;
 /**
  *
  */
-class SignalAdapter implements AdapterInterface
+class SignalAdapter implements Adapter
 {
+	/**
+	 *
+	 */
+	protected $signal = NULL;
+
+
 	/**
 	 *
 	 */

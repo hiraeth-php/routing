@@ -2,15 +2,15 @@
 
 namespace Hiraeth\Routing;
 
+use RuntimeException;
 use Hiraeth\Application;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use RuntimeException;
 
 /**
  *
  */
-class Resolver implements ResolverInterface
+class Resolver
 {
 	/**
 	 *
@@ -64,7 +64,10 @@ class Resolver implements ResolverInterface
 
 
 	/**
+	 * Get the request
 	 *
+	 * @access public
+	 * @return Request The PSR-7 request used to run the resolver
 	 */
 	public function getRequest(): Request
 	{
@@ -73,7 +76,10 @@ class Resolver implements ResolverInterface
 
 
 	/**
+	 * Get the default response
 	 *
+	 * @access public
+	 * @return Response The PSR-7 response used to run the resolver
 	 */
 	public function getResponse(): Response
 	{
@@ -82,7 +88,9 @@ class Resolver implements ResolverInterface
 
 
 	/**
+	 * Get the result
 	 *
+	 * @var mixed|null
 	 */
 	public function getResult()
 	{
@@ -91,7 +99,9 @@ class Resolver implements ResolverInterface
 
 
 	/**
+	 * Get the target
 	 *
+	 * @var mixed|null
 	 */
 	public function getTarget()
 	{
@@ -100,7 +110,7 @@ class Resolver implements ResolverInterface
 
 
 	/**
-	 * Resolve a target returned by `RouterInterface::match()` to a PSR-7 response
+	 * Resolve a target returned by `Router::match()` to a PSR-7 response
 	 *
 	 * @access public
 	 * @param Route $route The route to run
@@ -110,10 +120,10 @@ class Resolver implements ResolverInterface
 	 */
 	public function run(Route $route, Request $request, Response $response): Response
 	{
-		$this->target     = $route->getTarget();
-		$this->request    = $request;
-		$this->response   = $response;
-		$parameters       = array();
+		$this->target   = $route->getTarget();
+		$this->request  = $request;
+		$this->response = $response;
+		$parameters     = array();
 
 		foreach ($route->getParameters() as $parameter => $value) {
 			$parameters[':' . $parameter] = $value;
@@ -122,9 +132,9 @@ class Resolver implements ResolverInterface
 		foreach ($this->adapters as $adapter) {
 			$adapter = $this->app->get($adapter);
 
-			if (!$adapter instanceof AdapterInterface) {
+			if (!$adapter instanceof Adapter) {
 				throw new \RuntimeException(sprintf(
-					'Configured adapter "%s" must implement Hiraeth\Routing\AdapterInterface',
+					'Configured adapter "%s" must implement Hiraeth\Routing\Adapter',
 					get_class($adapter)
 				));
 			}
@@ -139,9 +149,9 @@ class Resolver implements ResolverInterface
 		foreach ($this->responders as $responder) {
 			$responder = $this->app->get($responder);
 
-			if (!$responder instanceof ResponderInterface) {
+			if (!$responder instanceof Responder) {
 				throw new \RuntimeException(sprintf(
-					'Configured responder "%s" must implement Hiraeth\Routing\ResponderInterface',
+					'Configured responder "%s" must implement Hiraeth\Routing\Responder',
 					get_class($adapter)
 				));
 				//
@@ -166,7 +176,7 @@ class Resolver implements ResolverInterface
 	/**
 	 *
 	 */
-	public function setAdapters(array $adapters): ResolverInterface
+	public function setAdapters(array $adapters): Resolver
 	{
 		$this->adapters = $adapters;
 
@@ -177,7 +187,7 @@ class Resolver implements ResolverInterface
 	/**
 	 *
 	 */
-	public function setResponders(array $responders): ResolverInterface
+	public function setResponders(array $responders): Resolver
 	{
 		$this->responders = $responders;
 

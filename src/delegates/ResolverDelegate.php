@@ -10,11 +10,7 @@ use Hiraeth;
 class ResolverDelegate implements Hiraeth\Delegate
 {
 	/**
-	 * Get the class for which the delegate operates.
-	 *
-	 * @static
-	 * @access public
-	 * @return string The class for which the delegate operates
+	 * {@inheritDoc}
 	 */
 	static public function getClass(): string
 	{
@@ -23,17 +19,19 @@ class ResolverDelegate implements Hiraeth\Delegate
 
 
 	/**
-	 * Get the instance of the class for which the delegate operates.
-	 *
-	 * @access public
-	 * @param Hiraeth\Application $app The application instance for which the delegate operates
-	 * @return object The instance of the class for which the delegate operates
+	* {@inheritDoc}
 	 */
 	public function __invoke(Hiraeth\Application $app): object
 	{
 		$resolver   = new Resolver($app);
-		$adapters   = $app->getConfig('*', 'adapter', []);
-		$responders = $app->getConfig('*', 'responder', []);
+		$defaults   = [
+			'class'    => NULL,
+			'disabled' => FALSE,
+			'priority' => 50
+		];
+
+		$adapters   = $app->getConfig('*', 'adapter', $defaults);
+		$responders = $app->getConfig('*', 'responder', $defaults);
 
 		usort($adapters, [$this, 'sort']);
 		usort($responders, [$this, 'sort']);
@@ -51,9 +49,6 @@ class ResolverDelegate implements Hiraeth\Delegate
 	 */
 	protected function sort($a, $b)
 	{
-		$a_priority = $a['priority'] ?? 50;
-		$b_priority = $b['priority'] ?? 50;
-
 		return $a_priority - $b_priority;
 	}
 
@@ -63,11 +58,7 @@ class ResolverDelegate implements Hiraeth\Delegate
 	 */
 	protected function load($config)
 	{
-		if ($config['disabled'] ?? FALSE) {
-			return NULL;
-		}
-
-		if (empty($config['class'])) {
+		if ($config['disabled']) {
 			return NULL;
 		}
 

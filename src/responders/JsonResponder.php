@@ -10,7 +10,7 @@ use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 /**
  *
  */
-class JsonResponder implements ResponderInterface
+class JsonResponder implements Responder
 {
 	/**
 	 *

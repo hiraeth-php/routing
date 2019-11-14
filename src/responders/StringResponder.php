@@ -8,7 +8,7 @@ use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 /**
  *
  */
-class StringResponder implements ResponderInterface
+class StringResponder implements Responder
 {
 	/**
 	 *
