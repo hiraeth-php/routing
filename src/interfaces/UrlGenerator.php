@@ -10,5 +10,5 @@ interface UrlGenerator
 	/**
 	 *
 	 */
-	public function anchor($location, array $params = array()): string;
+	public function __invoke($location, array $params = array()): string;
 }
