@@ -49,7 +49,7 @@ class ResolverDelegate implements Hiraeth\Delegate
 	 */
 	protected function sort($a, $b)
 	{
-		return $a_priority - $b_priority;
+		return $a['priority'] - $b['priority'];
 	}
 
 

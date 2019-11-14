@@ -3,7 +3,7 @@
 namespace Hiraeth\Routing;
 
 use SplFileInfo;
-use Hiraeth\Mime\MimeTypesInterface as MimeTypes;
+use Hiraeth\Mime\MimeTypes;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 
