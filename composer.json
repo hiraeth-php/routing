@@ -14,10 +14,9 @@
     "require": {
         "hiraeth/app": "^2.0",
         "hiraeth/mime": "^1.0",
+        "hiraeth/http": "^1.0",
+        "hiraeth/http-imp": "^1.0",
         "hiraeth/signal": "^1.0",
-        "psr/http-message": "^1.0",
-        "psr/http-factory": "^1.0",
-        "psr/http-server-handler": "^1.0",
         "psr/http-server-middleware": "^1.0"
     },
     "require-dev": {
