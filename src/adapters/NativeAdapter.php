@@ -3,12 +3,12 @@
 namespace Hiraeth\Routing;
 
 /**
- *
+ * {@inheritDoc}
  */
 class NativeAdapter implements Adapter
 {
 	/**
-	 *
+	 * {@inheritDoc}
 	 */
 	public function __invoke(Resolver $resolver): callable
 	{
@@ -17,7 +17,7 @@ class NativeAdapter implements Adapter
 
 
 	/**
-	 *
+	 * {@inheritDoc}
 	 */
 	public function match(Resolver $resolver): bool
 	{

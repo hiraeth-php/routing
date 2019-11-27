@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 
 /**
- *
+ * {@inheritDoc}
  */
 class JsonResponder implements Responder
 {
@@ -28,7 +28,7 @@ class JsonResponder implements Responder
 
 
 	/**
-	 *
+	 * {@inheritDoc}
 	 */
 	public function __invoke(Resolver $resolver): Response
 	{
@@ -45,7 +45,7 @@ class JsonResponder implements Responder
 
 
 	/**
-	 *
+	 * {@inheritDoc}
 	 */
 	public function match(Resolver $resolver): bool
 	{

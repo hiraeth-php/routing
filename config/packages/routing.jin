@@ -30,9 +30,8 @@
 	;
 
 	providers = [
-
+		"Hiraeth\Routing\ApplicationProvider"
 	]
-
 
 	;
 	; A template for our routes map

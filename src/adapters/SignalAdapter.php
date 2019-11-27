@@ -5,18 +5,20 @@ namespace Hiraeth\Routing;
 use Hiraeth\Utils\Signal;
 
 /**
- *
+ * {@inheritDoc}
  */
 class SignalAdapter implements Adapter
 {
 	/**
+	 * The signal instance for resolving target to callables
 	 *
+	 * @var Signal
 	 */
 	protected $signal = NULL;
 
 
 	/**
-	 *
+	 * Create a new instance of the adapter
 	 */
 	public function __construct(Signal $signal)
 	{
@@ -25,7 +27,7 @@ class SignalAdapter implements Adapter
 
 
 	/**
-	 *
+	 * {@inheritDoc}
 	 */
 	public function __invoke(Resolver $resolver): callable
 	{
@@ -34,7 +36,7 @@ class SignalAdapter implements Adapter
 
 
 	/**
-	 *
+	 * {@inheritDoc}
 	 */
 	public function match(Resolver $resolver): bool
 	{

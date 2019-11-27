@@ -5,7 +5,7 @@ namespace Hiraeth\Routing;
 use Hiraeth;
 
 /**
- * Delegates are responsible for constructing dependencies for the dependency injector.
+ * {@inheritDoc}
  */
 class ResolverDelegate implements Hiraeth\Delegate
 {
@@ -45,7 +45,7 @@ class ResolverDelegate implements Hiraeth\Delegate
 
 
 	/**
-	 *
+	 * Sort configs based on priority
 	 */
 	protected function sort($a, $b)
 	{
@@ -54,14 +54,12 @@ class ResolverDelegate implements Hiraeth\Delegate
 
 
 	/**
-	 *
+	 * Load the class for the config
 	 */
 	protected function load($config)
 	{
-		if ($config['disabled']) {
-			return NULL;
-		}
-
-		return $config['class'];
+		return !$config['disable']
+			? $config['class']
+			: NULL;
 	}
 }

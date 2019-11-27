@@ -6,12 +6,12 @@ namespace Hiraeth\Routing;
 use Psr\Http\Message\ResponseInterface as Response;
 
 /**
- *
+ * {@inheritDoc}
  */
 class ResponseAdapter implements Adapter
 {
 	/**
-	 *
+	 * {@inheritDoc}
 	 */
 	public function __invoke(Resolver $resolver): callable
 	{
@@ -22,7 +22,7 @@ class ResponseAdapter implements Adapter
 
 
 	/**
-	 *
+	 * {@inheritDoc}
 	 */
 	public function match(Resolver $resolver): bool
 	{

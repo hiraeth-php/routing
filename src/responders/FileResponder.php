@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 
 /**
- *
+ * {@inheritDoc}
  */
 class FileResponder implements Responder
 {
@@ -35,7 +35,7 @@ class FileResponder implements Responder
 
 
 	/**
-	 *
+	 * {@inheritDoc}
 	 */
 	public function __invoke(Resolver $resolver): Response
 	{
@@ -61,7 +61,7 @@ class FileResponder implements Responder
 
 
 	/**
-	 *
+	 * {@inheritDoc}
 	 */
 	public function match(Resolver $resolver): bool
 	{

@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 
 /**
- *
+ * {@inheritDoc}
  */
 class StringResponder implements Responder
 {
@@ -26,7 +26,7 @@ class StringResponder implements Responder
 
 
 	/**
-	 *
+	 * {@inheritDoc}
 	 */
 	public function __invoke(Resolver $resolver): Response
 	{
@@ -47,7 +47,7 @@ class StringResponder implements Responder
 
 
 	/**
-	 *
+	 * {@inheritDoc}
 	 */
 	public function match(Resolver $resolver): bool
 	{
