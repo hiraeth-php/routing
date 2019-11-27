@@ -58,7 +58,7 @@ class ResolverDelegate implements Hiraeth\Delegate
 	 */
 	protected function load($config)
 	{
-		return !$config['disable']
+		return !$config['disabled']
 			? $config['class']
 			: NULL;
 	}
