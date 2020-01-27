@@ -42,11 +42,7 @@ class FileResponder implements Responder
 		$result    = $resolver->getResult();
 		$response  = $resolver->getResponse();
 		$mime_type = $this->mimeTypes->getMimeType($result->getExtension());
-		$stream    = $this->streamFactory->createStreamFromFile($result->getRealPath());
-
-		if (!$result->isReadable()) {
-			return $response->withStatus(404);
-		}
+		$stream    = $this->streamFactory->createStreamFromFile($result->getPathname());
 
 		if (!$mime_type) {
 			$mime_type = 'text/plain; charset=UTF-8';
@@ -56,6 +52,8 @@ class FileResponder implements Responder
 			->withStatus(200)
 			->withBody($stream)
 			->withHeader('Content-Type', $mime_type)
+			->withHeader('Content-Length', $result->getSize())
+			->withHeader('Content-Disposition', sprintf('filename="%s"', $result->getFileName()))
 		;
 	}
 
