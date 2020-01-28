@@ -40,6 +40,7 @@ class FileResponder implements Responder
 	public function __invoke(Resolver $resolver): Response
 	{
 		$result    = $resolver->getResult();
+		$request   = $resolver->getRequest();
 		$response  = $resolver->getResponse();
 		$mime_type = $this->mimeTypes->getMimeType($result->getExtension());
 		$stream    = $this->streamFactory->createStreamFromFile($result->getPathname());
@@ -48,12 +49,18 @@ class FileResponder implements Responder
 			$mime_type = 'text/plain; charset=UTF-8';
 		}
 
+		if (!empty($request->getQueryParams()['download'])) {
+			$disposition = sprintf('attachment; filename="%s"', $result->getFileName());
+		} else {
+			$disposition = sprintf('filename="%s"', $result->getFileName());
+		}
+
 		return $response
 			->withStatus(200)
 			->withBody($stream)
 			->withHeader('Content-Type', $mime_type)
 			->withHeader('Content-Length', $result->getSize())
-			->withHeader('Content-Disposition', sprintf('filename="%s"', $result->getFileName()))
+			->withHeader('Content-Disposition', $disposition)
 		;
 	}
 

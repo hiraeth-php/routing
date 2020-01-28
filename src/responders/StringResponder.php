@@ -42,6 +42,7 @@ class StringResponder implements Responder
 			->withStatus(200)
 			->withBody($stream)
 			->withHeader('Content-Type', $mime_type)
+			->withHeader('Content-Length', $stream->getSize())
 		;
 	}
 

@@ -40,6 +40,7 @@ class JsonResponder implements Responder
 			->withStatus(200)
 			->withBody($stream)
 			->withHeader('Content-Type', 'application/json')
+			->withHeader('Content-Length', $stream->getSize())
 		;
 	}
 
