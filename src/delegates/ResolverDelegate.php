@@ -46,8 +46,12 @@ class ResolverDelegate implements Hiraeth\Delegate
 
 	/**
 	 * Sort configs based on priority
+	 *
+	 * @param mixed[] $a An adapter or responder configuration array
+	 * @param mixed[] $b An adapter or responder configuration array
+	 * @return int
 	 */
-	protected function sort($a, $b)
+	protected function sort(array $a, array $b): int
 	{
 		return $a['priority'] - $b['priority'];
 	}
@@ -55,8 +59,10 @@ class ResolverDelegate implements Hiraeth\Delegate
 
 	/**
 	 * Load the class for the config
+	 *
+	 * @param mixed[] $config An adapter or responser configuration array
 	 */
-	protected function load($config)
+	protected function load($config): ?string
 	{
 		return !$config['disabled']
 			? $config['class']

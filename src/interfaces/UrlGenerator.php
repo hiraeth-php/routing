@@ -16,6 +16,9 @@ interface UrlGenerator
 {
 	/**
 	 * Convert the provided location and parameters to a string URL
+	 *
+	 * @param mixed $location The location to generate a URL for (depends on implementation)
+	 * @param mixed[] $params The query parameters for the generated URL (NULL should remove)
 	 */
 	public function __invoke($location, array $params = array()): string;
 }

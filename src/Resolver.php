@@ -8,48 +8,48 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- *
+ * The resolver is responsible for taking a route and turning it into a a response.
  */
 class Resolver
 {
 	/**
-	 *
+	 * @var string[]
 	 */
 	protected $adapters = array();
 
 
 	/**
-	 *
+	 * @var Application|null
 	 */
 	protected $app = NULL;
 
 
 	/**
-	 *
+	 * @var Request|null
 	 */
 	protected $request = NULL;
 
 
 	/**
-	 *
+	 * @var string[]
 	 */
 	protected $responders = array();
 
 
 	/**
-	 *
+	 * @var Response|null
 	 */
 	protected $response = NULL;
 
 
 	/**
-	 *
+	 * @var mixed
 	 */
 	protected $target = NULL;
 
 
 	/**
-	 *
+	 * @var mixed
 	 */
 	protected $result = NULL;
 
@@ -90,7 +90,7 @@ class Resolver
 	/**
 	 * Get the result
 	 *
-	 * @var mixed|null
+	 * @return mixed
 	 */
 	public function getResult()
 	{
@@ -101,7 +101,7 @@ class Resolver
 	/**
 	 * Get the target
 	 *
-	 * @var mixed|null
+	 * @return mixed
 	 */
 	public function getTarget()
 	{
@@ -152,7 +152,7 @@ class Resolver
 			if (!$responder instanceof Responder) {
 				throw new \RuntimeException(sprintf(
 					'Configured responder "%s" must implement Hiraeth\Routing\Responder',
-					get_class($adapter)
+					get_class($responder)
 				));
 				//
 			}
@@ -174,7 +174,7 @@ class Resolver
 
 
 	/**
-	 *
+	 * @param string[] $adapters A list of adapter classes
 	 */
 	public function setAdapters(array $adapters): Resolver
 	{
@@ -185,7 +185,7 @@ class Resolver
 
 
 	/**
-	 *
+	 * @param string[] $responders A list of responder classes
 	 */
 	public function setResponders(array $responders): Resolver
 	{

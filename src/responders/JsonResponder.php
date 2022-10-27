@@ -3,6 +3,7 @@
 namespace Hiraeth\Routing;
 
 use stdClass;
+use Exception;
 use JsonSerializable;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
@@ -13,7 +14,7 @@ use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 class JsonResponder implements Responder
 {
 	/**
-	 *
+	 * @var StreamFactory|null
 	 */
 	protected $streamFactory = NULL;
 
@@ -34,14 +35,20 @@ class JsonResponder implements Responder
 	{
 		$result   = $resolver->getResult();
 		$response = $resolver->getResponse();
-		$stream   = $this->streamFactory->createStream(json_encode($result));
+		$content  = json_encode($result);
 
-		return $response
-			->withStatus(200)
-			->withBody($stream)
-			->withHeader('Content-Type', 'application/json')
-			->withHeader('Content-Length', $stream->getSize())
-		;
+		if ($content) {
+			$stream = $this->streamFactory->createStream($content);
+
+			return $response
+				->withStatus(200)
+				->withBody($stream)
+				->withHeader('Content-Type', 'application/json')
+				->withHeader('Content-Length', (string) $stream->getSize())
+			;
+		}
+
+		throw new Exception('Failed converting result to JSON');
 	}
 
 

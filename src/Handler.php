@@ -13,19 +13,19 @@ use Psr\Http\Message\ResponseFactoryInterface as ResponseFactory;
 class Handler implements RequestHandler
 {
 	/**
-	 *
+	 * @var ResponseFactory|null
 	 */
 	protected $factory = NULL;
 
 
 	/**
-	 *
+	 * @var Resolver|null
 	 */
 	protected $resolver = NULL;
 
 
 	/**
-	 *
+	 * @var Router|null
 	 */
 	protected $router = NULL;
 

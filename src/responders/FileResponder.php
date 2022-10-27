@@ -13,13 +13,13 @@ use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 class FileResponder implements Responder
 {
 	/**
-	 *
+	 * @var MimeTypes|null
 	 */
 	protected $mimeTypes = NULL;
 
 
 	/**
-	 *
+	 * @var StreamFactory|null
 	 */
 	protected $streamFactory = NULL;
 

@@ -6,13 +6,16 @@ use Hiraeth\Utils\Signal;
 
 /**
  * {@inheritDoc}
+ *
+ * The signal adapter will match class (__invoke implied) and class::method type strings and wrap
+ * them in a lazy loading signal resolver.
  */
 class SignalAdapter implements Adapter
 {
 	/**
 	 * The signal instance for resolving target to callables
 	 *
-	 * @var Signal
+	 * @var Signal|null
 	 */
 	protected $signal = NULL;
 

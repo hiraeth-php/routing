@@ -11,7 +11,7 @@ use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 class StringResponder implements Responder
 {
 	/**
-	 *
+	 * @var StreamFactory|null
 	 */
 	protected $streamFactory = NULL;
 
@@ -30,19 +30,24 @@ class StringResponder implements Responder
 	 */
 	public function __invoke(Resolver $resolver): Response
 	{
-		$finfo     = finfo_open();
 		$result    = $resolver->getResult();
 		$response  = $resolver->getResponse();
 		$stream    = $this->streamFactory->createStream($result);
-		$mime_type = finfo_buffer($finfo, $result, FILEINFO_MIME_TYPE);
 
-		finfo_close($finfo);
+		if ($finfo = finfo_open()) {
+			$mime_type = finfo_buffer($finfo, $result, FILEINFO_MIME_TYPE);
+			finfo_close($finfo);
+		}
+
+		if (empty($mime_type)) {
+			$mime_type = 'text/plain';
+		}
 
 		return $response
 			->withStatus(200)
 			->withBody($stream)
 			->withHeader('Content-Type', $mime_type)
-			->withHeader('Content-Length', $stream->getSize())
+			->withHeader('Content-Length', (string) $stream->getSize())
 		;
 	}
 

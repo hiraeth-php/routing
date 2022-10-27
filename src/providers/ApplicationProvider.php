@@ -23,11 +23,18 @@ class ApplicationProvider implements Hiraeth\Provider
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @param Hiraeth\Application $instance The application instance
 	 */
 	public function __invoke($instance, Hiraeth\Application $app): object
 	{
 		if (!$app->has(RequestHandler::class)) {
-			$app->get(Hiraeth\Broker::class)->alias(RequestHandler::class, Handler::class);
+
+			//
+			// If we don't have a registered request handler yet, register our handler.
+			//
+
+			$instance->get(Hiraeth\Broker::class)->alias(RequestHandler::class, Handler::class);
 		}
 
 		return $instance;

@@ -2,8 +2,6 @@
 
 namespace Hiraeth\Routing;
 
-use Hiraeth\Application;
-
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
@@ -17,19 +15,19 @@ use Psr\Http\Message\ResponseFactoryInterface as ResponseFactory;
 class RouterMiddleware implements MiddlewareInterface
 {
 	/**
-	 *
+	 * @var ResponseFactory|null
 	 */
 	protected $factory = NULL;
 
 
 	/**
-	 *
+	 * @var Resolver|null
 	 */
 	protected $resolver = NULL;
 
 
 	/**
-	 *
+	 * @var Router|null
 	 */
 	protected $router = NULL;
 
