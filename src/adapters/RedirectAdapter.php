@@ -13,10 +13,10 @@ class RedirectAdapter implements Adapter
 	public function __invoke(Resolver $resolver): callable
 	{
 		return function() use ($resolver) {
-			if ($resolver->getRequest()->getMethod() == 'POST') {
-				$status = 308;
-			} else {
+			if ($resolver->getRequest()->getMethod() == 'GET') {
 				$status = 301;
+			} else {
+				$status = 308;
 			}
 
 			return $resolver->getResponse()->withStatus($status)->withHeader(
