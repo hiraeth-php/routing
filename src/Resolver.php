@@ -25,6 +25,12 @@ class Resolver
 
 
 	/**
+	 * @var UrlGenerator|null
+	 */
+	protected $generator = NULL;
+
+
+	/**
 	 * @var Request|null
 	 */
 	protected $request = NULL;
@@ -59,7 +65,8 @@ class Resolver
 	 */
 	public function __construct(Application $app)
 	{
-		$this->app = $app;
+		$this->app       = $app;
+		$this->generator = $app->get(UrlGenerator::class);
 	}
 
 
@@ -120,10 +127,20 @@ class Resolver
 	 */
 	public function run(Route $route, Request $request, Response $response): Response
 	{
-		$this->target   = $route->getTarget();
+		$parameters     = array();
 		$this->request  = $request;
 		$this->response = $response;
-		$parameters     = array();
+
+		if (!$this->generator || !is_string($route->getTarget())) {
+			$this->target = $route->getTarget();
+
+		} else {
+			$this->target = $this->generator->__invoke(
+				$route->getTarget(),
+				$route->getParameters()
+			);
+
+		}
 
 		foreach ($route->getParameters() as $parameter => $value) {
 			$parameters[':' . $parameter] = $value;

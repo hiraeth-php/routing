@@ -39,7 +39,6 @@ class ResolverDelegate implements Hiraeth\Delegate
 		$resolver->setAdapters(array_filter(array_map([$this, 'load'], $adapters)));
 		$resolver->setResponders(array_filter(array_map([$this, 'load'], $responders)));
 
-
 		return $app->share($resolver);
 	}
 
