@@ -132,6 +132,10 @@ class Resolver
 		$this->response = $response;
 		$this->target   = $route->getTarget();
 
+		if ($this->generator && is_string($this->target)) {
+			$this->target = $this->generator->__invoke($route);
+		}
+
 		foreach ($route->getParameters() as $parameter => $value) {
 			$parameters[':' . $parameter] = $value;
 		}
