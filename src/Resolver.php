@@ -31,6 +31,12 @@ class Resolver
 
 
 	/**
+	 * @var array<string, string>
+	 */
+	protected $parameters;
+
+
+	/**
 	 * @var Request|null
 	 */
 	protected $request = NULL;
@@ -67,6 +73,15 @@ class Resolver
 	{
 		$this->app       = $app;
 		$this->generator = $app->get(UrlGenerator::class);
+	}
+
+
+	/**
+	 * @return array<string, string>
+	 */
+	public function getParameters(): array
+	{
+		return $this->parameters;
 	}
 
 
@@ -127,10 +142,11 @@ class Resolver
 	 */
 	public function run(Route $route, Request $request, Response $response): Response
 	{
-		$parameters     = array();
-		$this->request  = $request;
-		$this->response = $response;
-		$this->target   = $route->getTarget();
+		$parameters       = array();
+		$this->request    = $request;
+		$this->response   = $response;
+		$this->parameters = $route->getParameters();
+		$this->target     = $route->getTarget();
 
 		if ($this->generator && is_string($this->target)) {
 			$this->target = $this->generator->__invoke($route);
@@ -141,7 +157,7 @@ class Resolver
 		}
 
 		foreach ($this->adapters as $adapter) {
-			$adapter = $this->app->get($adapter);
+			$adapter = $this->app->get($adapter, $this->parameters);
 
 			if (!$adapter instanceof Adapter) {
 				throw new \RuntimeException(sprintf(
