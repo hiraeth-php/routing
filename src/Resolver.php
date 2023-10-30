@@ -2,6 +2,7 @@
 
 namespace Hiraeth\Routing;
 
+use Exception;
 use RuntimeException;
 use Hiraeth\Application;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -180,7 +181,20 @@ class Resolver
 				continue;
 			}
 
-			return $responder($this);
+			try {
+				return $responder($this);
+
+			} catch (Exception $e) {
+				while ($e->getPrevious()) {
+					$e = $e->getPrevious();
+				}
+
+				if ($e instanceof Interrupt) {
+					return $e->getResponse();
+				}
+
+				throw $e;
+			}
 		}
 
 		throw new RuntimeException(sprintf(
