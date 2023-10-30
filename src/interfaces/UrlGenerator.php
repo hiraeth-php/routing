@@ -21,4 +21,10 @@ interface UrlGenerator
 	 * @param mixed[] $params The query parameters for the generated URL (NULL should remove)
 	 */
 	public function __invoke($location, array $params = array()): string;
+
+
+	/**
+	 * Must call __invoke() with whatever arguments passed
+	 */
+	public function call(): string;
 }
