@@ -19,27 +19,21 @@ class Resolver
 
 
 	/**
-	 * @var Application|null
+	 * @var Application
 	 */
-	protected $app = NULL;
+	protected $app;
 
 
 	/**
-	 * @var UrlGenerator|null
+	 * @var UrlGenerator
 	 */
-	protected $generator = NULL;
+	protected $generator;
 
 
 	/**
-	 * @var array<string, string>
+	 * @var Request
 	 */
-	protected $parameters;
-
-
-	/**
-	 * @var Request|null
-	 */
-	protected $request = NULL;
+	protected $request;
 
 
 	/**
@@ -49,9 +43,15 @@ class Resolver
 
 
 	/**
-	 * @var Response|null
+	 * @var Response
 	 */
-	protected $response = NULL;
+	protected $response;
+
+
+	/**
+	 * @var Route
+	 */
+	protected $route;
 
 
 	/**
@@ -73,15 +73,6 @@ class Resolver
 	{
 		$this->app       = $app;
 		$this->generator = $app->get(UrlGenerator::class);
-	}
-
-
-	/**
-	 * @return array<string, string>
-	 */
-	public function getParameters(): array
-	{
-		return $this->parameters;
 	}
 
 
@@ -121,6 +112,17 @@ class Resolver
 
 
 	/**
+	 * Get the route
+	 *
+	 * @return Route
+	 */
+	public function getRoute()
+	{
+		return $this->route;
+	}
+
+
+	/**
 	 * Get the target
 	 *
 	 * @return mixed
@@ -142,22 +144,12 @@ class Resolver
 	 */
 	public function run(Route $route, Request $request, Response $response): Response
 	{
-		$parameters       = array();
-		$this->request    = $request;
-		$this->response   = $response;
-		$this->parameters = $route->getParameters();
-		$this->target     = $route->getTarget();
-
-		if ($this->generator && is_string($this->target)) {
-			$this->target = $this->generator->__invoke($route);
-		}
-
-		foreach ($route->getParameters() as $parameter => $value) {
-			$parameters[':' . $parameter] = $value;
-		}
+		$this->route    = $route;
+		$this->request  = $request;
+		$this->response = $response;
 
 		foreach ($this->adapters as $adapter) {
-			$adapter = $this->app->get($adapter, $this->parameters);
+			$adapter = $this->app->get($adapter);
 
 			if (!$adapter instanceof Adapter) {
 				throw new \RuntimeException(sprintf(
@@ -170,7 +162,7 @@ class Resolver
 				continue;
 			}
 
-			$this->result = $this->app->run($adapter($this), $parameters);
+			$this->result = $this->app->run($adapter($this), $route->getParameters());
 		}
 
 		foreach ($this->responders as $responder) {

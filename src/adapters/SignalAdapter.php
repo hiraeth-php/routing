@@ -34,7 +34,7 @@ class SignalAdapter implements Adapter
 	 */
 	public function __invoke(Resolver $resolver): callable
 	{
-		return $this->signal->resolve($resolver->getTarget());
+		return $this->signal->resolve($resolver->getRoute()->getTarget());
 	}
 
 
@@ -43,7 +43,7 @@ class SignalAdapter implements Adapter
 	 */
 	public function match(Resolver $resolver): bool
 	{
-		if (is_string($target = $resolver->getTarget())) {
+		if (is_string($target = $resolver->getRoute()->getTarget())) {
 			$callable = explode('::', $target) + [1 => '__invoke'];
 
 			if (method_exists($callable[0], $callable[1])) {

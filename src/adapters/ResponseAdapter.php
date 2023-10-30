@@ -16,7 +16,7 @@ class ResponseAdapter implements Adapter
 	public function __invoke(Resolver $resolver): callable
 	{
 		return function() use ($resolver) {
-			return $resolver->getTarget();
+			return $resolver->getRoute()->getTarget();
 		};
 	}
 
@@ -26,6 +26,6 @@ class ResponseAdapter implements Adapter
 	 */
 	public function match(Resolver $resolver): bool
 	{
-		return $resolver->getTarget() instanceof Response;
+		return $resolver->getRoute()->getTarget() instanceof Response;
 	}
 }
