@@ -33,7 +33,7 @@
 	; A template for our routes map
 	;
 
-	route = def(route, target, methods) {
+	route = def(route, !target, methods) {
 		{
 			"route":   $route,
 			"target":  $target,
