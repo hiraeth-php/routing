@@ -140,7 +140,7 @@ class Resolver
 			$mime_type = $default;
 		}
 
-		return $default;
+		return $mime_type;
 	}
 
 
