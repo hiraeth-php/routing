@@ -2,6 +2,7 @@
 
 namespace Hiraeth\Routing;
 
+use Json;
 use stdClass;
 use Exception;
 use JsonSerializable;
@@ -16,15 +17,15 @@ class JsonResponder implements Responder
 	/**
 	 * @var StreamFactory|null
 	 */
-	protected $streamFactory = NULL;
+	protected $streams = NULL;
 
 
 	/**
 	 *
 	 */
-	public function __construct(StreamFactory $stream_factory)
+	public function __construct(StreamFactory $streams)
 	{
-		$this->streamFactory = $stream_factory;
+		$this->streams = $streams;
 	}
 
 
@@ -35,15 +36,15 @@ class JsonResponder implements Responder
 	{
 		$result   = $resolver->getResult();
 		$response = $resolver->getResponse();
-		$content  = json_encode($result);
+		$content  = Json\Serialize($result);
 
 		if ($content) {
-			$stream = $this->streamFactory->createStream($content);
+			$stream    = $this->streams->createStream($content);
+			$mime_type = $resolver->getType($stream, 'application/json');
 
 			return $response
-				->withStatus(200)
 				->withBody($stream)
-				->withHeader('Content-Type', 'application/json')
+				->withHeader('Content-Type', $mime_type)
 				->withHeader('Content-Length', (string) $stream->getSize())
 			;
 		}

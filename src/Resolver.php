@@ -7,6 +7,7 @@ use RuntimeException;
 use Hiraeth\Application;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * The resolver is responsible for taking a route and turning it into a a response.
@@ -79,9 +80,6 @@ class Resolver
 
 	/**
 	 * Get the request
-	 *
-	 * @access public
-	 * @return Request The PSR-7 request used to run the resolver
 	 */
 	public function getRequest(): Request
 	{
@@ -91,9 +89,6 @@ class Resolver
 
 	/**
 	 * Get the default response
-	 *
-	 * @access public
-	 * @return Response The PSR-7 response used to run the resolver
 	 */
 	public function getResponse(): Response
 	{
@@ -103,10 +98,8 @@ class Resolver
 
 	/**
 	 * Get the result
-	 *
-	 * @return mixed
 	 */
-	public function getResult()
+	public function getResult(): mixed
 	{
 		return $this->result;
 	}
@@ -114,10 +107,8 @@ class Resolver
 
 	/**
 	 * Get the route
-	 *
-	 * @return Route
 	 */
-	public function getRoute()
+	public function getRoute(): Route
 	{
 		return $this->route;
 	}
@@ -125,23 +116,47 @@ class Resolver
 
 	/**
 	 * Get the target
-	 *
-	 * @return mixed
 	 */
-	public function getTarget()
+	public function getTarget(): mixed
 	{
 		return $this->target;
 	}
 
 
 	/**
+	 * Get the mime type for a stream
+	 */
+	public function getType(StreamInterface $stream, string $default = 'text/plain; charset=UTF-8'): string
+	{
+		$finfo = finfo_open();
+
+		if ($finfo) {
+			$mime_type = finfo_buffer($finfo, $stream, FILEINFO_MIME_TYPE);
+
+			finfo_close($finfo);
+		}
+
+		if (empty($mime_type)) {
+			$mime_type = $default;
+		}
+
+		return $default;
+	}
+
+
+	/**
+	 *  Set the default response into this state
+	 */
+	public function init(int $code): self
+	{
+		$this->response = $this->response->withStatus($code);
+
+		return $this;
+	}
+
+
+	/**
 	 * Resolve a target returned by `Router::match()` to a PSR-7 response
-	 *
-	 * @access public
-	 * @param Route $route The route to run
-	 * @param Request $request The server request that matched the target
-	 * @param Response $response The response object to modify for return
-	 * @return Response The PSR-7 response from running the target
 	 */
 	public function run(Route $route, Request $request, Response $response): Response
 	{
@@ -207,7 +222,7 @@ class Resolver
 
 
 	/**
-	 * @param string[] $adapters A list of adapter classes
+	 * @param class-string[] $adapters A list of adapter classes
 	 */
 	public function setAdapters(array $adapters): Resolver
 	{
@@ -218,7 +233,7 @@ class Resolver
 
 
 	/**
-	 * @param string[] $responders A list of responder classes
+	 * @param class-string[] $responders A list of responder classes
 	 */
 	public function setResponders(array $responders): Resolver
 	{

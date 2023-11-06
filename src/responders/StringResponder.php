@@ -13,15 +13,15 @@ class StringResponder implements Responder
 	/**
 	 * @var StreamFactory|null
 	 */
-	protected $streamFactory = NULL;
+	protected $streams = NULL;
 
 
 	/**
 	 *
 	 */
-	public function __construct(StreamFactory $stream_factory)
+	public function __construct(StreamFactory $streams)
 	{
-		$this->streamFactory = $stream_factory;
+		$this->streams = $streams;
 	}
 
 
@@ -32,19 +32,10 @@ class StringResponder implements Responder
 	{
 		$result    = $resolver->getResult();
 		$response  = $resolver->getResponse();
-		$stream    = $this->streamFactory->createStream($result);
-
-		if ($finfo = finfo_open()) {
-			$mime_type = finfo_buffer($finfo, $result, FILEINFO_MIME_TYPE);
-			finfo_close($finfo);
-		}
-
-		if (empty($mime_type)) {
-			$mime_type = 'text/plain';
-		}
+		$stream    = $this->streams->createStream($result);
+		$mime_type = $resolver->getType($stream);
 
 		return $response
-			->withStatus(200)
 			->withBody($stream)
 			->withHeader('Content-Type', $mime_type)
 			->withHeader('Content-Length', (string) $stream->getSize())

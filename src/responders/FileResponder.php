@@ -3,7 +3,6 @@
 namespace Hiraeth\Routing;
 
 use SplFileInfo;
-use Hiraeth\Utils\MimeTypes;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 
@@ -13,24 +12,17 @@ use Psr\Http\Message\StreamFactoryInterface as StreamFactory;
 class FileResponder implements Responder
 {
 	/**
-	 * @var MimeTypes|null
-	 */
-	protected $mimeTypes = NULL;
-
-
-	/**
 	 * @var StreamFactory|null
 	 */
-	protected $streamFactory = NULL;
+	protected $streams = NULL;
 
 
 	/**
 	 *
 	 */
-	public function __construct(StreamFactory $stream_factory, MimeTypes $mime_types)
+	public function __construct(StreamFactory $streams)
 	{
-		$this->streamFactory = $stream_factory;
-		$this->mimeTypes     = $mime_types;
+		$this->streams = $streams;
 	}
 
 
@@ -42,12 +34,8 @@ class FileResponder implements Responder
 		$result    = $resolver->getResult();
 		$request   = $resolver->getRequest();
 		$response  = $resolver->getResponse();
-		$mime_type = $this->mimeTypes->getMimeType($result->getExtension());
-		$stream    = $this->streamFactory->createStreamFromFile($result->getPathname());
-
-		if (!$mime_type) {
-			$mime_type = 'text/plain; charset=UTF-8';
-		}
+		$stream    = $this->streams->createStreamFromFile($result->getPathname());
+		$mime_type = $resolver->getType($stream);
 
 		if (!empty($request->getQueryParams()['download'])) {
 			$disposition = sprintf('attachment; filename="%s"', $result->getFileName());
@@ -56,7 +44,6 @@ class FileResponder implements Responder
 		}
 
 		return $response
-			->withStatus(200)
 			->withBody($stream)
 			->withHeader('Content-Type', $mime_type)
 			->withHeader('Content-Length', $result->getSize())
