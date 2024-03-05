@@ -126,7 +126,7 @@ class Resolver
 	/**
 	 * Get the mime type for a stream
 	 */
-	public function getType(StreamInterface $stream, string $default = 'text/plain; charset=UTF-8'): string
+	public function getType(StreamInterface $stream, string $default = 'text/plain;charset=UTF-8', bool $default_on_plain = FALSE): string
 	{
 		$finfo = finfo_open();
 
@@ -136,7 +136,7 @@ class Resolver
 			finfo_close($finfo);
 		}
 
-		if (empty($mime_type)) {
+		if (empty($mime_type) || ($default_on_plain && $mime_type == 'text/plain')) {
 			$mime_type = $default;
 		}
 
