@@ -31,7 +31,7 @@ class ApplicationProvider implements Hiraeth\Provider
 		if (!$app->has(RequestHandler::class)) {
 
 			//
-			// If we don't have a registered request handler yet, register our handler.
+			// If we don not have a registered request handler yet, register our handler.
 			//
 
 			$instance->get(Hiraeth\Broker::class)->alias(RequestHandler::class, Handler::class);
