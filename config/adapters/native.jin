@@ -4,7 +4,7 @@
 	; Whether or not this adapter is disabled
 	;
 
-	disabled = true
+	disabled = false
 
 	;
 	; The priority for the adapter
