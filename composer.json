@@ -15,7 +15,6 @@
         "hiraeth/app": "^3.0",
         "hiraeth/json": "^3.0",
         "hiraeth/http-imp": "^3.0",
-        "hiraeth/routing-imp": "^3.0",
         "hiraeth/signal": "^3.0"
     },
     "require-dev": {
