@@ -37,12 +37,6 @@ class ApplicationProvider implements Hiraeth\Provider
 			$app->get(Hiraeth\Broker::class)->alias(RequestHandler::class, Handler::class);
 		}
 
-		if (!$app->has(UrlGenerator::class)) {
-			$app->get(Hiraeth\Broker::class)->alias(UrlGenerator::class, RouteGenerator::class);
-		}
-
-		$app->share($app->get(UrlGenerator::class));
-
 		return $instance;
 	}
 }

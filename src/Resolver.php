@@ -16,10 +16,14 @@ use Psr\Http\Message\StreamInterface;
 class Resolver
 {
 	/**
+	 * @var callable|null
+	 */
+	protected $action = NULL;
+
+	/**
 	 * @var string[]
 	 */
 	protected $adapters = array();
-
 
 	/**
 	 * @var Application
@@ -138,17 +142,6 @@ class Resolver
 
 
 	/**
-	 *  Set the default response into this state
-	 */
-	public function init(int $code): self
-	{
-		$this->response = $this->response->withStatus($code);
-
-		return $this;
-	}
-
-
-	/**
 	 * Resolve a target returned by `Router::match()` to a PSR-7 response
 	 */
 	public function run(Route $route, Request $request, Response $response): Response
@@ -171,7 +164,16 @@ class Resolver
 				continue;
 			}
 
-			$this->result = $this->app->run($adapter($this), $route->getParameters());
+			$this->action = $adapter($this);
+		}
+
+		if ($this->action) {
+
+			if ($this->action instanceof Resolvable) {
+				$this->action->setResolver($this);
+			}
+
+			$this->result = $this->app->run($this->action, $route->getParameters());
 		}
 
 		foreach ($this->responders as $responder) {

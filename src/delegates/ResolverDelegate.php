@@ -30,7 +30,7 @@ class ResolverDelegate implements Hiraeth\Delegate
 			'priority' => 50
 		];
 
-		$adapters   = $app->getConfig('*', 'adapter', $defaults);
+		$adapters = $app->getConfig('*', 'adapter', $defaults);
 		$responders = $app->getConfig('*', 'responder', $defaults);
 
 		usort($adapters, [$this, 'sort']);
@@ -60,6 +60,7 @@ class ResolverDelegate implements Hiraeth\Delegate
 	 * Load the class for the config
 	 *
 	 * @param mixed[] $config An adapter or responser configuration array
+	 * @return ?class-string
 	 */
 	protected function load($config): ?string
 	{
