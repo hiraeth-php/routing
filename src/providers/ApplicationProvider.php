@@ -34,8 +34,14 @@ class ApplicationProvider implements Hiraeth\Provider
 			// If we don not have a registered request handler yet, register our handler.
 			//
 
-			$instance->get(Hiraeth\Broker::class)->alias(RequestHandler::class, Handler::class);
+			$app->get(Hiraeth\Broker::class)->alias(RequestHandler::class, Handler::class);
 		}
+
+		if (!$app->has(UrlGenerator::class)) {
+			$app->get(Hiraeth\Broker::class)->alias(UrlGenerator::class, RouteGenerator::class);
+		}
+
+		$app->share($app->get(UrlGenerator::class));
 
 		return $instance;
 	}
