@@ -4,6 +4,7 @@ namespace Hiraeth\Routing;
 
 use Exception;
 use RuntimeException;
+use Hiraeth\Http;
 use Hiraeth\Application;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -195,7 +196,7 @@ class Resolver
 					$e = $e->getPrevious();
 				}
 
-				if ($e instanceof Interrupt) {
+				if ($e instanceof Http\Interrupt) {
 					return $e->getResponse();
 				}
 
