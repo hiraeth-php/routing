@@ -181,7 +181,6 @@ class Resolver
 					'Configured responder "%s" must implement Hiraeth\Routing\Responder',
 					get_class($responder)
 				));
-				//
 			}
 
 			if (!$responder->match($this)) {
