@@ -142,6 +142,17 @@ class Resolver
 
 
 	/**
+	 *  Set the default response into this state
+	 */
+	public function init(int $code): self
+	{
+		$this->response = $this->response->withStatus($code);
+
+		return $this;
+	}
+
+
+	/**
 	 * Resolve a target returned by `Router::match()` to a PSR-7 response
 	 */
 	public function run(Route $route, Request $request, Response $response): Response

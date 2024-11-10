@@ -26,6 +26,7 @@
 	;
 
 	providers = [
+		"Hiraeth\Routing\ResolvableProvider",
 		"Hiraeth\Routing\ApplicationProvider"
 	]
 
