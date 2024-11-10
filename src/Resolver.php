@@ -25,13 +25,6 @@ class Resolver
 	 */
 	protected $app;
 
-
-	/**
-	 * @var UrlGenerator
-	 */
-	protected $generator;
-
-
 	/**
 	 * @var Request
 	 */
@@ -73,8 +66,7 @@ class Resolver
 	 */
 	public function __construct(Application $app)
 	{
-		$this->app       = $app;
-		$this->generator = $app->get(UrlGenerator::class);
+		$this->app = $app;
 	}
 
 
