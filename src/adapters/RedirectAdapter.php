@@ -20,7 +20,7 @@ class RedirectAdapter implements Adapter
 			}
 
 			return $resolver->getResponse()->withStatus($status)->withHeader(
-				'Location', substr($resolver->getRoute()->getTarget(), 1)
+				'Location', substr((string) $resolver->getRoute()->getTarget(), 1)
 			);
 		};
 	}
@@ -32,7 +32,7 @@ class RedirectAdapter implements Adapter
 	public function match(Resolver $resolver): bool
 	{
 		if (is_string($target = $resolver->getRoute()->getTarget())) {
-			return strpos($target, '=') === 0;
+			return str_starts_with($target, '=');
 		}
 
 		return FALSE;

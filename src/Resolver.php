@@ -23,7 +23,7 @@ class Resolver
 	/**
 	 * @var string[]
 	 */
-	protected $adapters = array();
+	protected $adapters = [];
 
 	/**
 	 * @var Application
@@ -39,7 +39,7 @@ class Resolver
 	/**
 	 * @var string[]
 	 */
-	protected $responders = array();
+	protected $responders = [];
 
 
 	/**
@@ -167,7 +167,7 @@ class Resolver
 			if (!$adapter instanceof Adapter) {
 				throw new \RuntimeException(sprintf(
 					'Configured adapter "%s" must implement Hiraeth\Routing\Adapter',
-					get_class($adapter)
+					$adapter::class
 				));
 			}
 
@@ -193,7 +193,7 @@ class Resolver
 			if (!$responder instanceof Responder) {
 				throw new \RuntimeException(sprintf(
 					'Configured responder "%s" must implement Hiraeth\Routing\Responder',
-					get_class($responder)
+					$responder::class
 				));
 			}
 
@@ -221,7 +221,7 @@ class Resolver
 			'No registered responder matched the result, %s, returned from the current route.',
 			!is_object($this->result)
 				? var_export($this->result, TRUE)
-				: get_class($this->result)
+				: $this->result::class
 		));
 	}
 

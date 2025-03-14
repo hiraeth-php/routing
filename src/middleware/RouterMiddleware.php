@@ -35,7 +35,7 @@ class RouterMiddleware implements MiddlewareInterface
 	/**
 	 *
 	 */
-	public function __construct(Resolver $resolver, ResponseFactory $factory, Router $router = NULL)
+	public function __construct(Resolver $resolver, ResponseFactory $factory, ?Router $router = NULL)
 	{
 		$this->resolver = $resolver;
 		$this->factory  = $factory;
@@ -60,9 +60,7 @@ class RouterMiddleware implements MiddlewareInterface
 
 		return $this->resolver->run(
 			new Route(
-				function(Resolver $resolver) {
-					return $resolver->getResponse()->withStatus(404);
-				}
+				fn(Resolver $resolver) => $resolver->getResponse()->withStatus(404)
 			),
 			$request,
 			$response
