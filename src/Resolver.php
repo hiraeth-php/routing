@@ -179,7 +179,6 @@ class Resolver
 		}
 
 		if ($this->action) {
-
 			if ($this->action instanceof Resolvable) {
 				$this->action->setResolver($this);
 			}

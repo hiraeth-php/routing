@@ -26,22 +26,6 @@ trait ResolvableTrait
 	 */
 	protected $response;
 
-
-	/**
-	 *
-	 */
-	protected function init(Exception|int $code): static
-	{
-		if ($code instanceof Exception) {
-			$code = $code->getCode();
-		}
-
-		$this->resolver->init($code);
-
-		return $this;
-	}
-
-
 	/**
 	 * Set the resolver (and implicitely the default request/response)
 	 */
